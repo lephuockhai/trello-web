@@ -22,6 +22,15 @@ module.exports = {
     'react/prop-types': 0,
     'react/display-name': 0,
 
+    //MUI 
+    'no-restricted-imports': [
+      'error',
+      {
+        'patterns': ['@mui/*/*/*']
+      }
+    ],
+
+    //COMMON
     'no-console': 1, // DUNG CHO PRODUCT
     'no-lonely-if': 1, // KHONG CHO PHEP IF TRONG MOT LENH ELSE
     'no-unused-vars': 1, //BIEN KHONG DUNG SE BAO WARN

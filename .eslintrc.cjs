@@ -16,15 +16,15 @@ module.exports = {
     'react-refresh'
   ],
   rules: {
-    'react-refresh/only-export-components': 'warn', //
-    'react-hooks/rules-of-hooks': 'error', //
-    'react-hooks/exhaustive-deps': 'warn',
+    'react-refresh/only-export-components': 1, //
+    'react-hooks/rules-of-hooks': 2, //
+    'react-hooks/exhaustive-deps': 1,
     'react/prop-types': 0,
     'react/display-name': 0,
 
     //MUI 
     'no-restricted-imports': [
-      'error',
+      2,
       {
         'patterns': ['@mui/*/*/*']
       }
@@ -37,14 +37,14 @@ module.exports = {
     'no-trailing-spaces': 1, //
     'no-multi-spaces': 1,
     'no-multiple-empty-lines': 1,
-    'space-before-blocks': ['error', 'always'],
+    'space-before-blocks': [2, 'always'],
     'object-curly-spacing': [1, 'always'],
-    'indent': ['warn', 2],
+    'indent': [1, 2],
     'semi': [1, 'never'],
-    'quotes': ['error', 'single'],
+    'quotes': [2, 'single'],
     'array-bracket-spacing': 1,
     'linebreak-style': 0,
-    'no-unexpected-multiline': 'warn',
+    'no-unexpected-multiline': 1,
     'keyword-spacing': 1,
     'comma-dangle': 1,
     'comma-spacing': 1,

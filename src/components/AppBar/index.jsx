@@ -16,15 +16,18 @@ import IconButton from '@mui/material/IconButton'
 import Badge from '@mui/material/Badge'
 import Tooltip from '@mui/material/Tooltip'
 import Profiles from './Menus/Profiles'
-
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 function AppBar() {
   return (
-    <Box px={1.5} sx={{
+    <Box sx={{
         width: '100%',
         height: (theme) => theme.trello.appBarHeight,
         display: 'flex',
         alignItems:'center',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
+        gap: 2,
+        paddingX: 2,
+        overflowX: 'auto'
       }}>
         <Box sx={{ display: 'flex', alignItems:'center', gap:2 }}>
           <AppsIcon sx={{ color: 'primary.main' }}/>
@@ -32,17 +35,18 @@ function AppBar() {
             <SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: 'primary.main' }}/>
             <Typography variant='span' sx={{ fontWeight: 'bold', fontSize: '1.3rem', color: 'primary.main' }}>Trello</Typography>
           </Box>
-
-          <Workspaces />
-          <Recent />
-          <Starred />
-          <Templates />
-
-          <Button variant='Outlined' sx={{ color:'primary.main'}}>Create</Button>
+          
+          <Box sx={{ display: {xs:'none', md: 'flex'}, gap: 1 }}>
+            <Workspaces />
+            <Recent />
+            <Starred />
+            <Templates />
+            <Button variant='outlined' startIcon={<LibraryAddIcon />}>Create</Button>
+          </Box>
 
         </Box>
         <Box sx={{ display: 'flex', alignItems:'center', gap:1 }}>
-          <TextField id='standard-search' label='Search..' type='search' size='small' />
+          <TextField id='standard-search' label='Search..' type='search' size='small' sx={{ minWidth: '120px' }} />
           <SelectMode />
 
           <IconButton>

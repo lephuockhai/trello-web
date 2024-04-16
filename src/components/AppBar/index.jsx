@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Box from '@mui/material/Box'
 import SelectMode from '../SelectMode'
 import AppsIcon from '@mui/icons-material/Apps'
@@ -17,7 +18,12 @@ import Badge from '@mui/material/Badge'
 import Tooltip from '@mui/material/Tooltip'
 import Profiles from './Menus/Profiles'
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
+import InputAdornment from '@mui/material/InputAdornment'
+import SearchIcon from '@mui/icons-material/Search'
+import CloseIcon from '@mui/icons-material/Close'
 function AppBar() {
+  const [searchValue, setSearchValue] = useState('')
+
   return (
     <Box sx={{
         width: '100%',
@@ -27,13 +33,14 @@ function AppBar() {
         justifyContent:'space-between',
         gap: 2,
         paddingX: 2,
-        overflowX: 'auto'
+        overflowX: 'auto',
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#1565c0')
       }}>
         <Box sx={{ display: 'flex', alignItems:'center', gap:2 }}>
-          <AppsIcon sx={{ color: 'primary.main' }}/>
+          <AppsIcon sx={{ color: 'white' }}/>
           <Box sx={{ display: 'flex', alignItems:'center', gap:0.5 }}>
-            <SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: 'primary.main' }}/>
-            <Typography variant='span' sx={{ fontWeight: 'bold', fontSize: '1.3rem', color: 'primary.main' }}>Trello</Typography>
+            <SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: 'white' }}/>
+            <Typography variant='span' sx={{ fontWeight: 'bold', fontSize: '1.3rem', color: 'white' }}>Trello</Typography>
           </Box>
           
           <Box sx={{ display: {xs:'none', md: 'flex'}, gap: 1 }}>
@@ -41,25 +48,79 @@ function AppBar() {
             <Recent />
             <Starred />
             <Templates />
-            <Button variant='outlined' startIcon={<LibraryAddIcon />}>Create</Button>
+            <Button
+              variant='outlined' 
+              startIcon={<LibraryAddIcon />} 
+              sx={{ 
+                color: 'white',
+                borderColor: 'white',
+                '&:hover': {
+                  color: 'white'
+                }
+              }}
+            >
+              Create
+            </Button>
           </Box>
 
         </Box>
-        <Box sx={{ display: 'flex', alignItems:'center', gap:1 }}>
-          <TextField id='standard-search' label='Search..' type='search' size='small' sx={{ minWidth: '120px' }} />
+        <Box 
+          sx=
+          {{ 
+            display: 'flex', 
+            alignItems:'center', 
+            gap:1 
+          }}>
+          <TextField 
+            id='standard-search' 
+            label='Search...' 
+            type='text'
+            size='small'
+            value={searchValue}
+            onChange={(event) => {setSearchValue(event.target.value)}} 
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchIcon sx={{ color: 'white' }} />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <CloseIcon 
+                  fontSize='small'
+                  sx={{ 
+                    color: searchValue ? 'white' : 'transparent',
+                    cursor: searchValue ? 'pointer' : null
+                  }} 
+                  onClick = {() => setSearchValue('')}
+                />
+              )
+            }}
+            sx=
+            {{ 
+              minWidth: '100px',
+              maxWidth: '170px',
+              '& label': {color: 'white'},
+              '& input': {color: 'white'},
+              '& label.Mui-focused': {color: 'white'},
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: 'white' }, //border white
+                '&:hover fieldset': { borderColor: 'white' }, //border white
+                '&.Mui-focused fieldset': { borderColor: 'white' },
+              }
+            }} />
           <SelectMode />
 
           <IconButton>
             <Tooltip title="Notification">
               <Badge color='secondary' variant='dot' sx={{ cursor: 'pointer' }}>
-                <NotificationsNoneIcon sx={{ color: 'primary.main'}} />
+                <NotificationsNoneIcon sx={{ color: 'white'}} />
               </Badge>
             </Tooltip>
           </IconButton>
 
           <IconButton>
             <Tooltip title= "Help">
-              <HelpOutlineIcon sx={{ color: 'primary.main'}} />
+              <HelpOutlineIcon sx={{ color: 'white'}} />
             </Tooltip>
           </IconButton>
           <Profiles />

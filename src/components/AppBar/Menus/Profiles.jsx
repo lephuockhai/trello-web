@@ -22,7 +22,7 @@ function Profiles() {
     }
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', color: 'white'}}>
         <Tooltip title="Account settings">
             <IconButton
             onClick={handleClick}
@@ -35,7 +35,7 @@ function Profiles() {
                 <Avatar 
                     alt='KhaxiDev'
                     src='https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-1/420743009_1972660693135510_656830229285118847_n.jpg?stp=dst-jpg_s480x480&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=9kq2opHws8EAb5mrjeT&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfCiQvRHMSgnRjFFiXB2CNYDbKqBkn18WwtPeXRtVRjOUA&oe=6623043D' 
-                    sx={{ width: 34, height: 34 }}>KhaxiDev</Avatar>
+                    sx={{ width: 36, height: 36 }}>KhaxiDev</Avatar>
             </IconButton>
         </Tooltip>
 

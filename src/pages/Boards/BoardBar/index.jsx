@@ -36,7 +36,8 @@ function BoardBar() {
         paddingX: 2,
         overflowX: 'auto',
         borderBottom: '1px solid #00bfa5',
-        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2')
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2'),
+        '&::-webkit-scrollbar-track': { m: 10 }
       }}>
         <Box sx={{ display: 'flex', alignItems:'center', gap:2 }}>
           <Chip
@@ -93,7 +94,9 @@ function BoardBar() {
               width: 34,
               height: 34,
               fontSize: 16,
-              border: 'none'
+              border: 'none',
+              color: 'white',
+              '&:first-of-type': { bgcolor: '#a4b0be'}
             }
           }}
           max={4}

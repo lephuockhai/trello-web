@@ -8,19 +8,9 @@ import AttachmentIcon from '@mui/icons-material/Attachment'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
-function Cards({ temporaryHiddenMedia }) {
-    if( temporaryHiddenMedia ) {
-        return (
-            <Card
-                sx={{
-                cursor: 'pointer',
-                boxShadow: ' 0 1px 1px rgba(0, 0, 0, 0.2)',
-                overflow: 'unset'
-                }}
-            >
-                <Typography> Card 1 No Media</Typography>
-            </Card>
-      )
+function Cards({ card }) {
+    const ShouldShowCardActions = () => {
+        return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
     }
     return (
         <Card
@@ -30,20 +20,28 @@ function Cards({ temporaryHiddenMedia }) {
             overflow: 'unset'
             }}
         >
-            <CardMedia 
-            sx={{ height: 150 }}
-            image='https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-1/420743009_1972660693135510_656830229285118847_n.jpg?stp=dst-jpg_s480x480&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=9kq2opHws8EAb5mrjeT&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfCiQvRHMSgnRjFFiXB2CNYDbKqBkn18WwtPeXRtVRjOUA&oe=6623043D'
-            title= 'Avatar'
-            />
+            {
+                card?.cover &&
+                <CardMedia sx={{ height: 150 }} image= {card?.cover} />
+            }
             <CardContent
             sx={{ p: 1.5, '&:last-child': {p: 1.5 } }}>
-            <Typography>Khaxi dev</Typography>
+            <Typography> {card?.title} </Typography>
             </CardContent>
-            <CardActions sx={{ p: '0 4px 8px 4px' }}>
-            <Button size="small" startIcon={<GroupIcon />}>20</Button>
-            <Button size="small" startIcon={<CommentIcon />}>15</Button>
-            <Button size="small" startIcon={<AttachmentIcon />}>10</Button>
-            </CardActions>
+            {ShouldShowCardActions() &&
+                <CardActions sx={{ p: '0 4px 8px 4px' }}>
+                    {!!card?.memberIds?.length && 
+                        <Button size="small" startIcon={<GroupIcon />}>{card?.memberIds?.length}</Button>
+                    }
+                    {!!card?.comments?.length && 
+                        <Button size="small" startIcon={<CommentIcon />}>{card?.comments?.length}</Button>
+                    }
+                    {!!card?.attachments?.length && 
+                        <Button size="small" startIcon={<AttachmentIcon />}>{card?.attachments?.length}</Button>
+                    }
+                </CardActions>
+            
+            }
         </Card>
   )
 }

@@ -9,7 +9,8 @@ import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import { Tooltip } from '@mui/material'
 import Button from '@mui/material/Button'
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { CapitalizeTheFirstLetter } from '~/utils/formatters'
 
 const MENUS_STYLE = {
   color:'white',
@@ -24,7 +25,7 @@ const MENUS_STYLE = {
     bgcolor: 'primary.50'
   }
 }
-function BoardBar() {
+function BoardBar({ board }) {
   return (
     <Box sx={{
         width: '100%',
@@ -42,14 +43,14 @@ function BoardBar() {
           <Chip
             sx={ MENUS_STYLE }
             icon={<DashBoardIcon />} 
-            label="KhaxiDev Study MERN Stack"
+            label= { board?.title}
             clickable
           />
 
           <Chip
             sx={ MENUS_STYLE }
             icon={<VpnLockIcon />} 
-            label="Public/Private Workspace"
+            label= { CapitalizeTheFirstLetter(board?.type) }
             clickable
           />
 

@@ -16,9 +16,9 @@ module.exports = {
     'react-refresh'
   ],
   rules: {
-    'react-refresh/only-export-components': 1, //
-    'react-hooks/rules-of-hooks': 2, //
-    'react-hooks/exhaustive-deps': 1,
+    'react-refresh/only-export-components': 'warn',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 0,
     'react/display-name': 0,
 

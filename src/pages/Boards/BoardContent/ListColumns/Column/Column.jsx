@@ -18,42 +18,49 @@ import Button from '@mui/material/Button'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
 import { mapOrder } from '~/utils/sorts'
-
 import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities';
-
+import { CSS } from '@dnd-kit/utilities'
 
 function Column({column}) {
     /**
-     * attributes
-     * listeners
-     * setNodeRef
-     * transform
-     * transition
+     * atteibutes:
      */
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ 
-        id: column._id,
-        data: {...column}
-    })
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging
+    }= useSortable({id: column._id, data: {...column}})
+
     const dndKitColumnstyles = {
         touchAction: 'none',
         transform: CSS.Translate.toString(transform), //nêú sử dụng Transform như docs sẽ bị lỗi stretch (kéo dài) component, Translate sẽ giải quyết vấn đề khi bị stretch 
-        transition
+        transition,
+        // chiều cao phải luôn max vì nếu không khi kéo 1 column ngắn sang column dài sẽ bị giật và phải kết hợp listener ở trong box để không kéo nhầm từ vùng xanh của card
+        height: '100%',
+        opacity: isDragging ? 0.5 : undefined // độ mờ object kéo thả
     }
 
-    const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, '_id')
     const [ anchorEl, setAnchorEl ] = useState(null)
     const open = Boolean(anchorEl)
     const handleClick = (event) => { setAnchorEl(event.currentTarget) }
     const handleClose = () => { setAnchorEl(null) }
+
+    const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, '_id')
     return (
     //column
-        <Box 
+    // dùng div thuần là vì bị bug khi kéo 1 column chiều cao thấp hơn column khác sẽ bị giật
+
+    <div
         ref={setNodeRef}
-        style={dndKitColumnstyles}
-        {...attributes} 
+        style={ dndKitColumnstyles }
+        {...attributes}
+    > 
+        <Box
+        // để {...listeners} bên dưới box để khi chọn trong cái box này thì mới có thể kéo thả được
         {...listeners}
-        s
         sx={{
             minWidth: '300px',
             maxWidth: '300px',
@@ -146,9 +153,10 @@ function Column({column}) {
             }}
             >
             <Button startIcon={<AddCardIcon fontSize='small'/>}>Add New card</Button>
-            <Tooltip title="Drag to move"><DragHandleIcon fontSize='small'/></Tooltip>
+            <Tooltip title="Drag to move"><DragHandleIcon sx={{cursor: 'pointer'}} fontSize='small'/></Tooltip>
             </Box>
         </Box>
+    </div>
   )
 }
 

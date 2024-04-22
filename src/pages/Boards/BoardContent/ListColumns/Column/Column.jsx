@@ -40,9 +40,9 @@ function Column({column}) {
         transition,
         // chiều cao phải luôn max vì nếu không khi kéo 1 column ngắn sang column dài sẽ bị giật và phải kết hợp listener ở trong box để không kéo nhầm từ vùng xanh của card
         height: '100%',
-        opacity: isDragging ? 0.5 : undefined // độ mờ object kéo thả
+        opacity: isDragging ? 0.5 : undefined, // độ mờ object kéo thả
+        border: isDragging ? '1px solid #48dbfb' : undefined
     }
-
     const [ anchorEl, setAnchorEl ] = useState(null)
     const open = Boolean(anchorEl)
     const handleClick = (event) => { setAnchorEl(event.currentTarget) }

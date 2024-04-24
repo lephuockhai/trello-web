@@ -10,7 +10,7 @@ export const mockData = {
       type: 'public', // 'private'
       ownerIds: [], // Những users là Admin của board
       memberIds: [], // Những users là member bình thường của board
-      columnOrderIds: ['column-id-01', 'column-id-02', 'column-id-03'], // Thứ tự sắp xếp / vị trí của các Columns trong 1 boards
+      columnOrderIds: ['column-id-01', 'column-id-02', 'column-id-03', 'column-id-placeholder-card'], // Thứ tự sắp xếp / vị trí của các Columns trong 1 boards
       columns: [
         {
           _id: 'column-id-01',
@@ -24,7 +24,7 @@ export const mockData = {
               columnId: 'column-id-01',
               title: 'Title of card 01',
               description: 'Markdown Syntax (sẽ ở khóa nâng cao nhé)',
-              cover: 'https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-1/420743009_1972660693135510_656830229285118847_n.jpg?stp=dst-jpg_s480x480&_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=9kq2opHws8EAb5mrjeT&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfCiQvRHMSgnRjFFiXB2CNYDbKqBkn18WwtPeXRtVRjOUA&oe=6623043D',
+              cover: 'https://scontent.fsgn14-1.fna.fbcdn.net/v/t39.30808-6/420743009_1972660693135510_656830229285118847_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=9jUc74eZHvAQ7kNvgFWXSsT&_nc_ht=scontent.fsgn14-1.fna&oh=00_AfA0SVUw2G3IkOus7MkpuPJWZ07VoXFAwvmnsvQ8jyXS7A&oe=662E5F7B',
               memberIds: ['test-user-id-01'],
               comments: ['test comment 01', 'test comment 02'],
               attachments: ['test attachment 01', 'test attachment 02', 'test attachment 03']
@@ -58,7 +58,19 @@ export const mockData = {
             { _id: 'card-id-12', boardId: 'board-id-01', columnId: 'column-id-03', title: 'Title of card 12', description: null, cover: null, memberIds: [], comments: [], attachments: [] },
             { _id: 'card-id-13', boardId: 'board-id-01', columnId: 'column-id-03', title: 'Title of card 13', description: null, cover: null, memberIds: [], comments: [], attachments: [] }
           ]
-        }
+        },
+
+        /* Video 37.2: Cách xử lý bug logic thư viện Dnd-kit khi Column là rỗng:
+            Phía FE sẽ tự tạo ra một cái card đặc biệt: Placeholder Card, không liên quan tới Back-end
+            Card đặc biệt này sẽ được ẩn ở giao diện UI người dùng.
+            Cấu trúc Id của cái card này để Unique rất đơn giản, không cần phải làm random phức tạp:
+            "columnId-placeholder-card" (mỗi column chỉ có thể có tối đa một cái Placeholder Card)
+            Quan trọng khi tạo: phải đầy đủ: (_id, boardId, columnId, FE_PlaceholderCard)
+            ***Ky
+            hơn nữa về cách tạo chuẩn ở bước nào thì sẽ ở học phần tích hợp API Back-end vào dự án. (bởi vì
+            day
+            là file mock-data)
+        */
       ]
     }
   }

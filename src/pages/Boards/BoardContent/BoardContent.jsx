@@ -18,11 +18,12 @@ import {
 } from '@dnd-kit/core'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { arrayMove } from '~/utils/arrayMove'
+import { generatePlaceHolderCard } from '~/utils/formatters'
 
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 
-import { after, cloneDeep } from 'lodash'
+import { after, cloneDeep, isEmpty } from 'lodash'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -96,7 +97,12 @@ function BoardContent({ board }) {
       // nếu tồn tại vị 
       if (nextActiveColumn) {
         //xoá card vừa kéo ở column cũ chứa nó
-        nextActiveColumn.cards = nextActiveColumn.cards.filter(card => card._id !== activeDraggingCardId)
+        nextActiveColumn.cards =  nextActiveColumn.cards.filter(card => card._id !== activeDraggingCardId)
+
+        //Thêm Placeholder Card nếu Column rỗng: Bị kéo hết Card đi, không còn cái nào nữa.
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceHolderCard(nextActiveColumn)]
+        }
 
         //cap nhật bằng mảng cardOrderIds để khớp với mock data
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(card => card._id)
@@ -117,10 +123,15 @@ function BoardContent({ board }) {
         //thêm card đang kéo vào overcolumn theo vị trí index mới
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, rebuilt_activeDraggingCardId)
 
+        //xoá placeholder card đi khi kéo 1 card khác vào
+        nextOverColumn.cards = nextOverColumn.cards.filter(card => !card.FE_PlaceHolderCard)
+
         //cap nhật bằng mảng cardOrderIds để khớp với mock data
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card._id)
+        
       }
-      // console.log('nextColumn:::', nextColumn)
+
+      console.log('nextColumn::::', nextColumn);
       return nextColumn
     })
   }
@@ -289,12 +300,12 @@ function BoardContent({ board }) {
       const checkColumn = orderedColumns.find(column => column._id === overId)
 
       if ( checkColumn) {
-        overId = closestCorners({
+        overId = closestCorners ({
           ...args,
           droppableContainers: args.droppableContainers.filter(container => {
             return (container.id !== overId) & (checkColumn?.cardOrderIds?.includes(container.id))
-          })[0]?.id
-        })
+          })
+        })[0]?.id
       }
       lastOverId.current = overId
       return [{ id: overId}]

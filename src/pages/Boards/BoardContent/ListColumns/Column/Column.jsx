@@ -31,7 +31,7 @@ function Column({column}) {
         setNodeRef,
         transform,
         transition,
-        isDragging
+        isDragging //value khi kéo đối tượng
     }= useSortable({id: column._id, data: {...column}})
 
     const dndKitColumnstyles = {

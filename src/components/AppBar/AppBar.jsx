@@ -21,6 +21,17 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
+import { Chip } from '@mui/material'
+
+const MENUS_STYLE = {
+  color:'white', // màu chữ
+  bgcolor: 'transparent', //mất độ mờ hover
+  borderRadius: '5px',
+  fontSize: '1.3rem',
+  fontWeight: 'bold',
+  '.MuiSvgIcon-root': { color: 'white' },
+  '&:hover': { bgcolor: 'primary.50' }
+}
 function AppBar() {
   const [searchValue, setSearchValue] = useState('')
 
@@ -34,14 +45,32 @@ function AppBar() {
         gap: 2,
         paddingX: 2,
         overflowX: 'auto',
-        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#1565c0'),
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#1565c0'),  
+        '.MuiSvgIcon-root': {
+          color: 'white'
+        },
+        '&:hover': {
+          bgcolor: 'primary.50'
+        },
         '&::-webkit-scrollbar-track': { m: 10 } //chinh kich thuoc thanh track cua scrollbar
       }}>
-        <Box sx={{ display: 'flex', alignItems:'center', gap:2 }}>
+        <Box sx={{ display: 'flex', alignItems:'center', gap:1.5, cursor: 'pointer' }}>
           <AppsIcon sx={{ color: 'white' }}/>
-          <Box sx={{ display: 'flex', alignItems:'center', gap:0.5 }}>
-            <SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: 'white' }}/>
-            <Typography variant='span' sx={{ fontWeight: 'bold', fontSize: '1.3rem', color: 'white' }}>Trello</Typography>
+          <Box sx={{ 
+              display: 'flex', 
+              alignItems:'center', 
+              gap:0.5, 
+              cursor: 'pointer',
+              '& .MuiBox-root': {
+                '&:hover fieldset': { borderColor: 'white' }
+              }
+               }}>
+                <Chip
+                  sx={ MENUS_STYLE }
+                  icon={<SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: 'white' }}/>}
+                  label= { <Typography variant='span' sx={{ fontWeight: 'bold', fontSize: '1.3rem', color: 'white' }}>Trello</Typography> }
+                  clickable
+                />
           </Box>
           
           <Box sx={{ display: {xs:'none', md: 'flex'}, gap: 1 }}>
@@ -112,8 +141,8 @@ function AppBar() {
           <SelectMode />
 
           <IconButton>
-            <Tooltip title="Notification">
-              <Badge color='secondary' variant='dot' sx={{ cursor: 'pointer' }}>
+            <Tooltip title="Notification"> {/*tooltip chú giải tiêu đề cho đối tượng */}
+              <Badge color='secondary' variant='dot' sx={{ cursor: 'pointer' }}> {/*Badge tạo 1 huy hiệu nhỏ bên trên góc phải icon */}
                 <NotificationsNoneIcon sx={{ color: 'white'}} />
               </Badge>
             </Tooltip>

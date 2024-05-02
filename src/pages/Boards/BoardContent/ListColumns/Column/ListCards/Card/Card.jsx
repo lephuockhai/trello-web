@@ -21,7 +21,7 @@ function Card({ card }) {
     })
 
     const dndKitOrderedStyles = {
-        touchAction: 'none',
+        touchAction: 'none', //dành cho người dùng màn hình cảm ứng
         transform: CSS.Translate.toString(transform),
         transition,
         height: '100%',
@@ -35,22 +35,21 @@ function Card({ card }) {
             style={dndKitOrderedStyles}
             {...attributes}
         >
-                <MuiCard
-                    {...listeners}
-                    sx={{
-                        cursor: 'pointer',
-                        boxShadow: ' 0 1px 1px rgba(0, 0, 0, 0.2)',
-                        overflow: 'unset',
-                        display: card?.FE_PlaceHolderCard ? 'none' : 'block'
-                    }}
+            <MuiCard
+                {...listeners}
+                sx={{
+                    cursor: 'pointer',
+                    boxShadow: ' 0 1px 1px rgba(0, 0, 0, 0.2)',
+                    overflow: 'unset',
+                    display: card?.FE_PlaceHolderCard ? 'none' : 'block'
+                }}
             >
-                {
+                    {
                     card?.cover &&
                     <CardMedia sx={{ height: 150 }} image= {card?.cover} />
-                }
-                <CardContent
-                    sx={{ p: 1.5, '&:last-child': {p: 1.5 } }}>
-                    <Typography> {card?.title} </Typography>
+                    }
+                    <CardContent sx={{ p: 1.5, '&:last-child': {p: 1.5 } }}>
+                        <Typography> {card?.title} </Typography>
                     </CardContent>
                     {ShouldShowCardActions() &&
                         <CardActions sx={{ p: '0 4px 8px 4px' }}>

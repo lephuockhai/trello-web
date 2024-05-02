@@ -3,7 +3,6 @@ import ListColumns from './ListColumns/ListColumns'
 import { mapOrder } from '~/utils/sorts'
 import {
   DndContext,
-  PointerSensor,
   MouseSensor,
   TouchSensor,
   useSensor,
@@ -12,9 +11,7 @@ import {
   defaultDropAnimationSideEffects,
   closestCorners,
   pointerWithin,
-  rectIntersection,
   getFirstCollision,
-  closestCenter
 } from '@dnd-kit/core'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { arrayMove } from '~/utils/arrayMove'

@@ -24,7 +24,7 @@ export const mockData = {
               columnId: 'column-id-01',
               title: 'Title of card 01',
               description: 'Markdown Syntax (sẽ ở khóa nâng cao nhé)',
-              cover: 'https://scontent.fsgn14-1.fna.fbcdn.net/v/t39.30808-6/420743009_1972660693135510_656830229285118847_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=9jUc74eZHvAQ7kNvgFWXSsT&_nc_ht=scontent.fsgn14-1.fna&oh=00_AfA0SVUw2G3IkOus7MkpuPJWZ07VoXFAwvmnsvQ8jyXS7A&oe=662E5F7B',
+              cover: 'https://wallpapers.com/images/featured/4k-marvel-awrqh8lcgyk3crjc.jpg',
               memberIds: ['test-user-id-01'],
               comments: ['test comment 01', 'test comment 02'],
               attachments: ['test attachment 01', 'test attachment 02', 'test attachment 03']

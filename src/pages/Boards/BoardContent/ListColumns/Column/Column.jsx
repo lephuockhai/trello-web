@@ -22,6 +22,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
+import { toast } from 'react-toastify'
 
 function Column({column}) {
     /**
@@ -60,7 +61,12 @@ function Column({column}) {
     //arrow bắt event khi add title mà không có data trong input thì nó sẽ trả về rỗng,
     //còn nếu có data và nhấn add thì nó sẽ đóng button và clear input
     const addNewCard = () => {
-        if(!newCardTitle) return
+        if(!newCardTitle) {
+            toast.warning('Please enter card before Add new card', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+        }
+            
 
         toggleOpenNewCardForm()
         setNewCardTitle('')

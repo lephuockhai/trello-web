@@ -193,6 +193,7 @@ function Column({column}) {
                             size='small'
                             variant='outlined'
                             autoFocus
+                            data-no-dnd = 'true' // fix bug bôi đen text nhưng lại bị kéo cả column đi
                             value={newCardTitle}
                             onChange={event => setNewCardTitle(event.target.value)}
                             sx={{
@@ -224,6 +225,7 @@ function Column({column}) {
                                 variant= 'contained'
                                 color='success'
                                 size='small'
+                                data-no-dnd = 'true' // fix bug bôi đen text nhưng lại bị kéo cả column đi
                                 sx={{
                                     boxShadow: 'none',
                                     border: ' 0.5px solid',
@@ -233,6 +235,7 @@ function Column({column}) {
                             >Add</Button>
                             <CloseIcon 
                                 fontSize= 'small'
+                                data-no-dnd = 'true' // fix bug bôi đen text nhưng lại bị kéo cả column đi
                                 sx={{
                                     color: theme => theme.palette.warning.light,
                                     cursor: 'pointer'

@@ -39,7 +39,7 @@ function ListColumns({ columns }) {
             display: 'flex',
             overflowX: 'auto',
             overflowY: 'hidden',
-            '&::-webkit-scrollbar-track': { m: 10 }
+            '&::-webkit-scrollbar-track': { m: 2 }
           }}
           >
             {columns?.map(column => <Column key={column._id} column={column} />)}
@@ -77,7 +77,8 @@ function ListColumns({ columns }) {
                   bgcolor: '#fffff3d',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 1
+                  gap: 1,
+                  '&:hover': { color: (theme) => theme.palette.primary.main}
                 }}
               >
                 <TextField 

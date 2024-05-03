@@ -5,6 +5,7 @@ import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
 import { mockData } from '~/apis/mock-data'
 import { fetchBoardDetailApi } from '~/apis'
+import { Divider } from '@mui/material'
 
 function Board() {
   const [ board, setBoard ] = useState(null)
@@ -20,7 +21,9 @@ function Board() {
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh'}}>
       <AppBar />
+      <Divider />
       <BoardBar board = {mockData?.board} />
+      <Divider />
       <BoardContent board = {mockData?.board} />
     </Container>
   )

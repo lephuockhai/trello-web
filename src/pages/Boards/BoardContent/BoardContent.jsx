@@ -324,7 +324,7 @@ function BoardContent({ board }) {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}>
       <Box sx={{
-        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2'),
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#4A6C7C' : '#0080FF'),
         width: '100%',
         height: (theme) => (theme.trello.boardContentHeight),
         p: '10px 0'

@@ -7,7 +7,7 @@ import BoltIcon from '@mui/icons-material/Bolt'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
-import { Tooltip } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { CapitalizeTheFirstLetter } from '~/utils/formatters'
@@ -36,8 +36,8 @@ function BoardBar({ board }) {
         gap: 2,
         paddingX: 2,
         overflowX: 'auto',
-        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#1976d2'),
-        '&::-webkit-scrollbar-track': { m: 10 }
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#0063C5'),
+        '&::-webkit-scrollbar-track': { m: 2 }
       }}>
         <Box sx={{ display: 'flex', alignItems:'center', gap:2 }}>
           <Tooltip title={board?.description}>

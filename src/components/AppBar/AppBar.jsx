@@ -21,7 +21,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
-import { Chip } from '@mui/material'
+import Chip from '@mui/material/Chip'
 
 const MENUS_STYLE = {
   color:'white', // màu chữ
@@ -45,14 +45,14 @@ function AppBar() {
         gap: 2,
         paddingX: 2,
         overflowX: 'auto',
-        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#1565c0'),  
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2F3146' : '#0056AC'),  
         '.MuiSvgIcon-root': {
           color: 'white'
         },
         '&:hover': {
           bgcolor: 'primary.50'
         },
-        '&::-webkit-scrollbar-track': { m: 10 } //chinh kich thuoc thanh track cua scrollbar
+        '&::-webkit-scrollbar-track': { m: 2 } //chinh kich thuoc thanh track cua scrollbar
       }}>
         <Box sx={{ display: 'flex', alignItems:'center', gap:1.5, cursor: 'pointer' }}>
           <AppsIcon sx={{ color: 'white' }}/>

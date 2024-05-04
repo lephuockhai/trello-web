@@ -1,3 +1,4 @@
+// contained listcolumn in a board content window, columnOrderId
 import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
 import { mapOrder } from '~/utils/sorts'
@@ -33,7 +34,7 @@ const dropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({ styles: {active: {opacity: '0.5' }}})
 }
 
-function BoardContent({ board }) {
+function BoardContent({ board, createNewColumn, createNewCard }) {
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
   const touchSensor = useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
 
@@ -329,7 +330,11 @@ function BoardContent({ board }) {
         height: (theme) => (theme.trello.boardContentHeight),
         p: '10px 0'
         }}> 
-        <ListColumns columns={orderedColumns} />
+        <ListColumns 
+          columns={orderedColumns} 
+          createNewColumn= {createNewColumn} 
+          createNewCard = {createNewCard}
+        />
         <DragOverlay dropAnimation={dropAnimation}>
           {/* khi keo 1 element thi dong nghia voi viec handleDragStart dang hoat dong va no se xem thu neu nhu ban dang keo column 
           thi no se keep place column va cac phan tu cho ban va tuong tu doi voi card*/}

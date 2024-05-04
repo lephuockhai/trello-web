@@ -1,3 +1,4 @@
+//chứa các thông tin của 1 card
 import { Card as MuiCard} from '@mui/material'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'

@@ -1,3 +1,4 @@
+//chứa các card trong 1 list card (column)
 import Box from '@mui/material/Box'
 import Card from './Card/Card'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'

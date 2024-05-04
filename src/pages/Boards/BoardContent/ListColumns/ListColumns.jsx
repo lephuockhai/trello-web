@@ -1,3 +1,4 @@
+// contained columns in a board
 import Box from '@mui/material/Box'
 import Column from './Column/Column'
 import Button from '@mui/material/Button'
@@ -7,14 +8,15 @@ import { useState } from 'react'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
+import { createNewColumnAPI } from '~/apis'
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const [newColumnTitle, setNewColumnTitle] = useState('')
 
 
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.warning('please enter column before Add new column', {
         position: toast.POSITION.BOTTOM_RIGHT
@@ -22,9 +24,15 @@ function ListColumns({ columns }) {
       return
     }
 
-    // console.log('newColumnTitle:::', newColumnTitle)
+    // create data to call api
+    const newColumnData = {
+      title: newColumnTitle
+    }
+    console.log('newColumnData:::', newColumnData);
 
-    // call api to save column in here!!!!!!..
+    await createNewColumn(newColumnData)
+
+    // call api to save column in here!!!!!!..  
 
     // close trạng thái khi thêm column và clear input
     toggleOpenNewColumnForm() // close card component
@@ -45,7 +53,7 @@ function ListColumns({ columns }) {
             '&::-webkit-scrollbar-track': { m: 2 }
           }}
           >
-            {columns?.map(column => <Column key={column._id} column={column} />)}
+            {columns?.map(column => <Column key={column._id} column={column} createNewCard = {createNewCard} />)}
 
             {!openNewColumnForm
               ? <Box onClick = {toggleOpenNewColumnForm} sx={{

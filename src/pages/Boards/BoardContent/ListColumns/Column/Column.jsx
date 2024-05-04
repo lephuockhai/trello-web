@@ -1,3 +1,4 @@
+//contained cards in a column
 import { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -24,7 +25,7 @@ import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
 
-function Column({column}) {
+function Column({column, createNewCard}) {
     /**
      * atteibutes:
      */
@@ -60,13 +61,19 @@ function Column({column}) {
 
     //arrow bắt event khi add title mà không có data trong input thì nó sẽ trả về rỗng,
     //còn nếu có data và nhấn add thì nó sẽ đóng button và clear input
-    const addNewCard = () => {
+    const addNewCard = async () => {
         if(!newCardTitle) {
             toast.warning('Please enter card before Add new card', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         }
-            
+
+        const newCardData = {
+            title: newCardTitle,
+            columnId: column._id
+        }
+
+        await createNewCard(newCardData)
 
         toggleOpenNewCardForm()
         setNewCardTitle('')
@@ -163,7 +170,7 @@ function Column({column}) {
             </Box>
         </Box>
 
-            {/* list Card */}
+            {/* list Card in each column */}
             <ListCards cards={orderedCard} />
 
             {/* footer */}

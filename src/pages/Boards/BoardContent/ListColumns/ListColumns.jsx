@@ -28,7 +28,6 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
     const newColumnData = {
       title: newColumnTitle
     }
-    console.log('newColumnData:::', newColumnData);
 
     await createNewColumn(newColumnData)
 

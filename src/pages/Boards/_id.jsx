@@ -7,16 +7,25 @@ import BoardContent from './BoardContent/BoardContent'
 import { fetchBoardDetailApi } from '~/apis'
 import { Divider } from '@mui/material'
 import { createNewCardAPI, createNewColumnAPI } from '~/apis'
+import { generatePlaceHolderCard } from '~/utils/formatters'
+import { isEmpty } from 'lodash'
 
 function Board() {
   const [ board, setBoard ] = useState(null)
-  console.log('board:::', board)
 
   useEffect(() => {
     // tạm thơi fix cứng boardId, để phát triển lên thêm thì cần dùng react-router-dom để lấy chuẩn boardId từ url
-    const boardId = '663660a517a252978276d010'
+    const boardId = '6636736c989b50e52fafd6bc'
 
     fetchBoardDetailApi(boardId).then(board => {
+
+      board.columns.forEach(column => {
+        if (isEmpty(column.cards)) {
+          column.cards = [generatePlaceHolderCard(column)]
+          column.cardOrderIds = [generatePlaceHolderCard(column)._id]
+        }
+      })
+
       setBoard(board)
     })
   }, [])
@@ -26,6 +35,18 @@ function Board() {
       ...newColumnData,
       boardId: board._id
     })
+
+    createdColumn.cards = [generatePlaceHolderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceHolderCard(createdColumn)._id]
+
+    //update page after add new colum or card
+    //frontend phải làm stage data thay vì phải gọi api get data lại 
+    //có thể BE sẽ hổ trợ cả phần này
+    const newBoard = {...board}
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+  
+    setBoard(newBoard)
   }
 
   const createNewCard = async (newCardData) => {
@@ -33,7 +54,18 @@ function Board() {
       ...newCardData,
       boardId: board._id
     })
+    const newBoard = {...board}
+    const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
+
+    if (columnToUpdate) {
+      columnToUpdate.cards.push(createdCard)
+      columnToUpdate.cardOrderIds.push(createdCard._id)
+    }
+    setBoard(newBoard)
+
   }
+
+
 
 
   return (

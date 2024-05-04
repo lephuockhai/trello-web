@@ -10,11 +10,10 @@ import { createNewCardAPI, createNewColumnAPI } from '~/apis'
 
 function Board() {
   const [ board, setBoard ] = useState(null)
-  console.log('board:::', board)
 
   useEffect(() => {
     // tạm thơi fix cứng boardId, để phát triển lên thêm thì cần dùng react-router-dom để lấy chuẩn boardId từ url
-    const boardId = '663660a517a252978276d010'
+    const boardId = '6636736c989b50e52fafd6bc'
 
     fetchBoardDetailApi(boardId).then(board => {
       setBoard(board)

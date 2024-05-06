@@ -9,6 +9,7 @@ import { Divider } from '@mui/material'
 import { createNewCardAPI, createNewColumnAPI } from '~/apis'
 import { generatePlaceHolderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
+import { updateBoardDetailApi } from '~/apis'
 
 function Board() {
   const [ board, setBoard ] = useState(null)
@@ -45,7 +46,6 @@ function Board() {
     const newBoard = {...board}
     newBoard.columns.push(createdColumn)
     newBoard.columnOrderIds.push(createdColumn._id)
-  
     setBoard(newBoard)
   }
 
@@ -66,7 +66,23 @@ function Board() {
   }
 
 
+  //func này có nhiệm vụ gọi api và xử lý khi kéo thả column trong 1 board và chỉ cần cập nhật mảng columnOrderIds
+  const moveColumns = (dndOrderedColumn) => {
+    // cập nhật lại cho chuẩn dữ liệu state board
+    const dndOrderedColumnsIds = dndOrderedColumn.map(c => c._id)
+    const newBoard = {...board}
+    newBoard.columns = dndOrderedColumn
+    newBoard.columnOrderIds = dndOrderedColumnsIds
+    setBoard(newBoard)
 
+    //call api update column move
+    updateBoardDetailApi(newBoard._id, {columnOrderIds: newBoard.columnOrderIds})
+  }
+
+  //func này có nhiệm vụ gọi api và xử lý khi kéo thả column trong 1 board và chỉ cần cập nhật mảng columnOrderIds
+  const moveCardInTheSamecolumn = () => {
+
+  }
 
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh'}}>
@@ -77,7 +93,10 @@ function Board() {
       <BoardContent 
         board = {board} 
         createNewColumn = {createNewColumn}
-        createNewCard = {createNewCard}/>
+        createNewCard = {createNewCard}
+        moveColumns = {moveColumns}
+        moveCardInTheSamecolumn = {moveCardInTheSamecolumn}
+      />
     </Container>
   )
 }

@@ -22,7 +22,7 @@ import { generatePlaceHolderCard } from '~/utils/formatters'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 
-import { after, cloneDeep, isEmpty } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: 'ACTIVE_DRAG_ITEM_TYPE_COLUMN',
@@ -34,7 +34,7 @@ const dropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({ styles: {active: {opacity: '0.5' }}})
 }
 
-function BoardContent({ board, createNewColumn, createNewCard }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSamecolumn }) {
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
   const touchSensor = useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
 
@@ -220,8 +220,8 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
 
       if (!activeColumn || !overColumn) return
 
+      //hành động kéo thả card trong 2 column khác nhau
       if(oldColumnWhenDraggingCard._id !== overColumn._id) {
-        //hành động kéo thả card trong 2 column khác nhau
         moveCardBetweenDifferentColumns(
           overColumn,
           overCardId,
@@ -250,6 +250,8 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
 
           return nextColumn
         })
+
+        moveCardInTheSamecolumn()
       }
     }
 
@@ -259,12 +261,17 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
       const oldColumnIndex = orderedColumns.findIndex(c => c._id === active.id)
       const newColumnIndex = orderedColumns.findIndex(c => c._id === over.id)
 
-      //sắp xếp lại mảng khi drag drop column 
+      //sắp xếp lại mảng khi drag drop column dùng arrayMove của dnd-kit
       const afterOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
-      //2 clg dữ liệu này dùng cho gọi api
+      // //2 clg dữ liệu này dùng cho gọi api
       // const dndOrderedColumnsIds = afterOrderedColumns.map(c => c._id)
 
+      //tránh delay hoặc flickering giao diện lúc kéo thả khi cần phải chờ gọi API
       setOrderedColumns(afterOrderedColumns)
+
+      //gọi hàm setordercoumn trước để hiển thị state trước khi gọi api 
+      moveColumns(afterOrderedColumns)
+
     }
 
     //những dữ liệu sau khi kéo thả này sau khi được kéo thả xong phải luôn được set về null mặc định ban đầu

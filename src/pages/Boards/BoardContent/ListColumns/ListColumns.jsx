@@ -8,7 +8,6 @@ import { useState } from 'react'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
-import { createNewColumnAPI } from '~/apis'
 
 function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
@@ -16,7 +15,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
 
 
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
-  const addNewColumn = async () => {
+  const addNewColumn = () => {
     if (!newColumnTitle) {
       toast.warning('please enter column before Add new column', {
         position: toast.POSITION.BOTTOM_RIGHT
@@ -29,7 +28,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
       title: newColumnTitle
     }
 
-    await createNewColumn(newColumnData)
+    createNewColumn(newColumnData)
 
     // call api to save column in here!!!!!!..  
 

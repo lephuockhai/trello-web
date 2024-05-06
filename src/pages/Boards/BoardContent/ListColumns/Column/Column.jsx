@@ -61,7 +61,7 @@ function Column({column, createNewCard}) {
 
     //arrow bắt event khi add title mà không có data trong input thì nó sẽ trả về rỗng,
     //còn nếu có data và nhấn add thì nó sẽ đóng button và clear input
-    const addNewCard = async () => {
+    const addNewCard = () => {
         if(!newCardTitle) {
             toast.warning('Please enter card before Add new card', {
                 position: toast.POSITION.BOTTOM_RIGHT
@@ -73,7 +73,7 @@ function Column({column, createNewCard}) {
             columnId: column._id
         }
 
-        await createNewCard(newCardData)
+        createNewCard(newCardData)
 
         toggleOpenNewCardForm()
         setNewCardTitle('')

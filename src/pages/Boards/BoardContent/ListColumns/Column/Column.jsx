@@ -51,7 +51,9 @@ function Column({column, createNewCard}) {
     const open = Boolean(anchorEl)
     const handleClick = (event) => { setAnchorEl(event.currentTarget) }
     const handleClose = () => { setAnchorEl(null) }
-    const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+
+    //đã sắp xếp ở _id
+    const orderedCard = column?.cards
 
     const [openCardForm, setOpenCardForm] = useState(false)
     const toggleOpenNewCardForm = () => {

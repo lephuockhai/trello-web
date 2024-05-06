@@ -54,7 +54,9 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
   const lastOverId = useRef(null)
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+
+    //đã sắp xếp ở _id
+    setOrderedColumns(board?.columns)
   }, [board])
 
   const findColumnByCardId = (cardId) => {
@@ -234,10 +236,14 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
       } else {
         //hành động kéo thả card trong cùng 1 column
         const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(c => c._id === activeDragItemId)
+        console.log('oldCardIndex::', oldCardIndex)
+
         const newCardIndex = overColumn?.cards?.findIndex(c => c._id === overCardId)
+        console.log('newCardIndex::', newCardIndex)
 
         const afterOrderedCards = arrayMove(oldColumnWhenDraggingCard?.cards, oldCardIndex, newCardIndex)
-        
+        const dndOrderedCardIds = afterOrderedCards.map(card => card._id)
+
         setOrderedColumns(precolumns => {
           // clone mảng orderedcolumnstate cũ để xử lý data rồi return về ordercolumnstate mới 
           const nextColumn = cloneDeep(precolumns)
@@ -251,7 +257,7 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
           return nextColumn
         })
 
-        moveCardInTheSamecolumn()
+        moveCardInTheSamecolumn(afterOrderedCards, dndOrderedCardIds, oldColumnWhenDraggingCard?._id)
       }
     }
 

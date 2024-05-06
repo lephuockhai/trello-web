@@ -9,7 +9,7 @@ import { Divider } from '@mui/material'
 import { createNewCardAPI, createNewColumnAPI } from '~/apis'
 import { generatePlaceHolderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
-import { updateBoardDetailApi } from '../../apis'
+import { updateBoardDetailApi } from '~/apis'
 
 function Board() {
   const [ board, setBoard ] = useState(null)

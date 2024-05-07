@@ -4,8 +4,6 @@ import ListColumns from './ListColumns/ListColumns'
 import { mapOrder } from '~/utils/sorts'
 import {
   DndContext,
-  // MouseSensor,
-  // TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
@@ -34,7 +32,14 @@ const dropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({ styles: {active: {opacity: '0.5' }}})
 }
 
-function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCardInTheSamecolumn }) {
+function BoardContent({ 
+  board, 
+  createNewColumn, 
+  createNewCard, 
+  moveColumns,
+  moveCardInTheSamecolumn, 
+  moveCardToDifferencecolumn 
+}) {
   const mouseSensor = useSensor(MouseSensor, { activationConstraint: { distance: 10 } })
   const touchSensor = useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
 
@@ -61,8 +66,7 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
 
   const findColumnByCardId = (cardId) => {
     // Đoạn này cần lưu ý, nên dùng c.cards thay vì c.cardOrderIds bởi vì ở bước handleDragover chúng ta sẽ
-    // làm dữ liệu cho cards hoàn chỉnh trước rồi mới tạo
-    // ra cardOrderIds mới.
+    // làm dữ liệu cho cards hoàn chỉnh trước rồi mới tạo ra cardOrderIds mới.
 
     //tìm dữ liệu của cardId xem trong mảng có card đó không
     return orderedColumns.find(column => column.cards.map(card => card._id)?.includes(cardId))
@@ -76,7 +80,8 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFrom
   ) => {
     setOrderedColumns(precolumns => {
       // tìm vị trí của activeCard sắp được thả 
@@ -132,7 +137,10 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
         
       }
 
-      console.log('nextColumn::::', nextColumn);
+      if (triggerFrom === 'handleDragEnd') {
+        moveCardToDifferencecolumn(activeDraggingCardId, oldColumnWhenDraggingCard._id, nextOverColumn._id, nextColumn)
+      }
+
       return nextColumn
     })
   }
@@ -195,7 +203,8 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
         over,
         activeColumn,
         activeDraggingCardId,
-        activeDraggingCardData
+        activeDraggingCardData,
+        'handleDragOver'
       )
     }
   }
@@ -231,15 +240,13 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
           over,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       } else {
         //hành động kéo thả card trong cùng 1 column
         const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(c => c._id === activeDragItemId)
-        console.log('oldCardIndex::', oldCardIndex)
-
         const newCardIndex = overColumn?.cards?.findIndex(c => c._id === overCardId)
-        console.log('newCardIndex::', newCardIndex)
 
         const afterOrderedCards = arrayMove(oldColumnWhenDraggingCard?.cards, oldCardIndex, newCardIndex)
         const dndOrderedCardIds = afterOrderedCards.map(card => card._id)

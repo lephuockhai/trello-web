@@ -18,14 +18,14 @@ import AddCardIcon from '@mui/icons-material/AddCard'
 import Button from '@mui/material/Button'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
-import { mapOrder } from '~/utils/sorts'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
+import { DeleteColumnConfirm } from '~/components/DeleteColumnConfirm/DeleteColumnConfirm'
 
-function Column({column, createNewCard}) {
+function Column({column, createNewCard, deleteColumn}) {
     /**
      * atteibutes:
      */
@@ -51,16 +51,17 @@ function Column({column, createNewCard}) {
     const open = Boolean(anchorEl)
     const handleClick = (event) => { setAnchorEl(event.currentTarget) }
     const handleClose = () => { setAnchorEl(null) }
-
+    
     //đã sắp xếp ở _id
     const orderedCard = column?.cards
-
+    
     const [openCardForm, setOpenCardForm] = useState(false)
     const toggleOpenNewCardForm = () => {
         setOpenCardForm(!openCardForm)
+        handleClose()
     }
     const [newCardTitle, setNewCardTitle] = useState('')
-
+    
     //arrow bắt event khi add title mà không có data trong input thì nó sẽ trả về rỗng,
     //còn nếu có data và nhấn add thì nó sẽ đóng button và clear input
     const addNewCard = () => {
@@ -69,17 +70,40 @@ function Column({column, createNewCard}) {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         }
-
+        
         const newCardData = {
             title: newCardTitle,
             columnId: column._id
         }
-
+        
         createNewCard(newCardData)
-
+        
         toggleOpenNewCardForm()
         setNewCardTitle('')
     }
+    
+    //xử lý xoá xoá1 column
+    
+    const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
+
+    const handleDeleteColumn = () => {
+        setOpenConfirmDelete(true)
+    };
+
+    //cancel confirm
+    const handleCloseConfirmDelete = () => {
+        setOpenConfirmDelete(false)
+        handleClose()
+    };
+
+    //xác nhận xoá column
+    // gọi ngược lên props function của tầng cao nhất _id.jsx để update từ trên trở xuống
+    const handleConfirmDelete = () => {
+        // Thực hiện hành động xóa column ở đây
+        setOpenConfirmDelete(false) // Đóng Dialog sau khi xác nhận xóa
+        deleteColumn(column._id)
+        handleClose()
+    };
 
     return (
     //column
@@ -91,17 +115,18 @@ function Column({column, createNewCard}) {
         {...attributes}
     > 
         <Box
-        // để {...listeners} bên dưới box để khi chọn trong cái box này thì mới có thể kéo thả được
-        {...listeners}
-        sx={{
-            minWidth: '300px',
-            maxWidth: '300px',
-            bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#333643' : '#ebecf0'),
-            ml: 2,
-            borderRadius: '6px',
-            height: 'fit-content',
-            maxHeight: (theme) => `calc( ${theme.trello.boardContentHeight} - ${theme.spacing(5)})`
-        }}>
+            // để {...listeners} bên dưới box để khi chọn trong cái box này thì mới có thể kéo thả được
+            {...listeners}
+            sx={{
+                minWidth: '300px',
+                maxWidth: '300px',
+                bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#333643' : '#ebecf0'),
+                ml: 2,
+                borderRadius: '6px',
+                height: 'fit-content',
+                maxHeight: (theme) => `calc( ${theme.trello.boardContentHeight} - ${theme.spacing(5)})`
+            }}
+        >
             {/* header */}
             <Box sx={{
             height: (theme) => `${theme.trello.columnHeaderHeight}`,
@@ -124,7 +149,10 @@ function Column({column, createNewCard}) {
             <Box>
                 <Tooltip title= "More options">
                 <ExpandMoreIcon 
-                    sx={{ color: 'text.primary', cursor: 'pointer'}}
+                    sx={{ 
+                        color: 'text.primary', 
+                        cursor: 'pointer'
+                    }}
                     id= 'basic-column-dropdown'
                     aria-controls= { open ? 'basic-menu-column-dropdown' : undefined }
                     aria-haspopup= 'true'
@@ -136,13 +164,21 @@ function Column({column, createNewCard}) {
                 id='basic-menu-column-dropdown'
                 anchorEl={ anchorEl }
                 open= { open }
-                onClose={ handleClose }
+                // onClick={ handleClick }
+                onClose={handleClose}
                 MenuListProps={{
                     'aria-labelledby': 'basic-column-dropdown'
                 }}
                 >
-                <MenuItem>
-                    <ListItemIcon><AddCardIcon fontSize='small'/></ListItemIcon>
+                <MenuItem onClick={toggleOpenNewCardForm} sx={{
+                    '&:hover' : {
+                        color: 'primary.dark',
+                        '& .add-card-icon': {
+                            color: 'primary.dark'
+                        }
+                    }
+                }}>
+                    <ListItemIcon><AddCardIcon className='add-card-icon' fontSize='small'/></ListItemIcon>
                     <ListItemText>Add New Card</ListItemText>
                 </MenuItem>
 
@@ -160,26 +196,37 @@ function Column({column, createNewCard}) {
                 </MenuItem>
 
                 <Divider />
-                <MenuItem>
-                    <ListItemIcon><DeleteIcon fontSize='small' /></ListItemIcon>
-                    <ListItemText>Remove this column</ListItemText>
+                <MenuItem onClick={handleDeleteColumn} sx={{
+                    '&:hover' : {
+                        color: 'warning.dark',
+                        '& .delete-column-icon': {
+                            color: 'warning.dark'
+                        }
+                    }
+                }}>
+                    <ListItemIcon><DeleteIcon className='delete-column-icon' fontSize='small' /></ListItemIcon>
+                    <ListItemText>Delete this column</ListItemText>
                 </MenuItem>
                 <MenuItem>
                     <ListItemIcon><CloudIcon fontSize='small' /></ListItemIcon>
                     <ListItemText>Archive this column</ListItemText>
                 </MenuItem>
+            <DeleteColumnConfirm
+                open={openConfirmDelete}
+                handleClose={handleCloseConfirmDelete}
+                handleConfirm={handleConfirmDelete}
+            />
                 </Menu>
             </Box>
         </Box>
-
             {/* list Card in each column */}
             <ListCards cards={orderedCard} />
 
             {/* footer */}
-            <Box 
+        <Box 
             sx={{
-            height: (theme) => theme.trello.columnFooterHeight,
-            p:2
+                height: (theme) => theme.trello.columnFooterHeight,
+                p:2
             }}
             >
                 {!openCardForm

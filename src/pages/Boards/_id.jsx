@@ -15,10 +15,12 @@ import {
   fetchBoardDetailApi,
   createNewCardAPI, 
   createNewColumnAPI,
-  moveCardToDifferencecolumnAPI
+  moveCardToDifferencecolumnAPI,
+  deleteColumnAPI
 } from '~/apis'
 import { mapOrder } from '~/utils/sorts'
 import CircularProgress from '@mui/material/CircularProgress'
+import { toast } from 'react-toastify'
 
 function Board() {
   const [ board, setBoard ] = useState(null)
@@ -144,7 +146,16 @@ function Board() {
       nextColumnId,
       nextCardOrderIds: dndOrderedColumn.find(c => c._id === nextColumnId)?.cardOrderIds,
     })
+  }
 
+  const deleteColumn = (columnId) => {
+    const newBoard = {...board}
+    newBoard.columns = newBoard.columns.filter(column => column._id !== columnId)// vì đây là đối tượng nên trước _id có 1 obj cụ thể
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== columnId) // vì đây là 1 mảng các ID
+    setBoard(newBoard)
+    deleteColumnAPI(columnId).then( res => {
+      toast.success(res?.deleteResult)
+    })
   }
 
   if (!board) {
@@ -171,11 +182,12 @@ function Board() {
       <Divider />
       <BoardContent 
         board = {board} 
-        createNewColumn = {createNewColumn}
-        createNewCard = {createNewCard}
-        moveColumns = {moveColumns}
-        moveCardInTheSamecolumn = {moveCardInTheSamecolumn}
-        moveCardToDifferencecolumn = {moveCardToDifferencecolumn}
+        createNewColumn = { createNewColumn }
+        createNewCard = { createNewCard }
+        moveColumns = { moveColumns }
+        moveCardInTheSamecolumn = { moveCardInTheSamecolumn }
+        moveCardToDifferencecolumn = { moveCardToDifferencecolumn }
+        deleteColumn = { deleteColumn }
       />
     </Container>
   )
